@@ -275,6 +275,9 @@ export default function App() {
                  DAYUNG (ROWING)
                </button>
             </div>
+            <p className="font-bold text-slate-500 text-[9px] tracking-[0.3em] uppercase mt-4 opacity-60">
+  Developed by <span className="text-cyan-400">fiqhipondaa9</span>
+</p>
           </div>
         </div>
       </header>
