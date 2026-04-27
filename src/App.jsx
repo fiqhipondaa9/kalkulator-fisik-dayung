@@ -57,8 +57,8 @@ const getTargetPlaceholder = (cabor, test, gender) => {
       case 'shoulderFlex': return isM ? '≥ 180' : '≥ 180';
       case 'shoulderExt': return isM ? '≥ 60' : '≥ 60';
       case 'pushUp': return isM ? '≥ 75' : '≥ 50';
-      case 'benchPress': return isM ? '≥ 2.0 BW' : '≥ 1.5 BW';
-      case 'squat': return isM ? '≥ 2.5 BW' : '≥ 2.0 BW';
+      case 'benchPress': return isM ? '≥ 2.0' : '≥ 1.5';
+      case 'squat': return isM ? '≥ 2.5' : '≥ 2.0';
       case 'core': return '≥ 12';
       case 'medBall': return isM ? '≥ 8.0' : '≥ 6.0';
       case 'wingate': return isM ? '≥ 900' : '≥ 700';
@@ -73,9 +73,9 @@ const getTargetPlaceholder = (cabor, test, gender) => {
       case 'shoulderFlexibility': return '< 0';
       case 'core': return '≥ 12';
       case 'pushUp': return isM ? '≥ 75' : '≥ 50';
-      case 'deadlift': return isM ? '≥ 2.5 BW' : '≥ 2.0 BW';
-      case 'benchFull': return isM ? '≥ 1.5 BW' : '≥ 1.2 BW';
-      case 'squat': return isM ? '≥ 2.5 BW' : '≥ 2.0 BW';
+      case 'deadlift': return isM ? '≥ 2.5' : '≥ 2.0';
+      case 'benchFull': return isM ? '≥ 1.5' : '≥ 1.2';
+      case 'squat': return isM ? '≥ 2.5' : '≥ 2.0';
       case 'singleLeg': return '≥ 60';
       case 'rowing30s': return isM ? '≥ 1200' : '≥ 900';
       case 'rowing5Min': return isM ? '≥ 1600' : '≥ 1500';
@@ -225,7 +225,7 @@ export default function App() {
   };
 
   const inputClass = "w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 font-bold text-slate-900 focus:outline-none focus:border-cyan-500 transition-all";
-  const testInputClass = "w-full bg-white border border-slate-200 rounded-2xl px-4 py-3 font-black text-slate-900 focus:outline-none focus:border-cyan-500 transition-all pr-16 placeholder:text-[11px] placeholder:font-bold placeholder:text-slate-400/70 text-right";
+  const testInputClass = "w-full bg-white border border-slate-200 rounded-2xl px-4 py-3 font-black text-slate-900 focus:outline-none focus:border-cyan-500 transition-all pr-24 placeholder:text-[11px] placeholder:font-bold placeholder:text-slate-400/70 text-right";
 
   return (
     <div id="report-container" className="min-h-screen bg-slate-50 flex flex-col items-center py-10 px-4 font-sans print:bg-white print:py-0 print:px-0">
