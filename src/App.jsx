@@ -383,7 +383,7 @@ export default function App() {
           <div className="bg-white rounded-[2rem] p-6 md:p-8 shadow-sm border border-slate-200">
             <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
               <div className="bg-cyan-100 text-cyan-600 p-2.5 rounded-2xl"><IconBoat /></div>
-              <h2 className="text-xl font-black text-slate-900 uppercase tracking-wide">Rekam Tes: {identity.subCabor}</h2>
+              <h2 className="text-xl font-black text-slate-900 uppercase tracking-wide">Rekam Hasil Tes Fisik: {identity.subCabor}</h2>
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5">
