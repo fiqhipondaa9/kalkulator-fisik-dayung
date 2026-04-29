@@ -442,7 +442,7 @@ export default function App() {
                    </span>
                  </div>
                  <div className="relative">
-                   <input type="number" step="0.1" value={identity.subCabor === 'Canoeing' ? tests.ergoVO2 : tests.rowingVO2} onChange={e => setTests({...tests, [identity.subCabor === 'Canoeing' ? 'ergoVO2' : 'rowingVO2']: e.target.value})} className={`${testInputClass} bg-white border-cyan-200 py-12 text-xl`} placeholder="Hasil Uji Lab / Ergo..." />
+                   <input type="number" step="0.1" value={identity.subCabor === 'Canoeing' ? tests.ergoVO2 : tests.rowingVO2} onChange={e => setTests({...tests, [identity.subCabor === 'Canoeing' ? 'ergoVO2' : 'rowingVO2']: e.target.value})} className={`${testInputClass} bg-white border-cyan-200 py-4 text-xl`} placeholder="0.0" />
                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-black text-cyan-600 uppercase tracking-widest">mL/Kg/Min</span>
                  </div>
                </div>
