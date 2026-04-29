@@ -277,7 +277,7 @@ export default function App() {
               PERMENPORA 15 TAHUN 2024
             </div>
             <h1 className="text-3xl md:text-5xl font-black tracking-tight leading-tight">
-              KALKULATOR FISIK<br/><span className="text-cyan-400">DAYUNG (PODSI)</span>
+              KALKULATOR FISIK<br/><span className="text-cyan-400">DAYUNG</span>
             </h1>
           </div>
           <div className="text-left md:text-right w-full md:w-auto">
@@ -328,7 +328,7 @@ export default function App() {
               <div className="space-y-1">
                 <label className="text-[10px] font-bold text-slate-500 uppercase ml-1 tracking-wider">Jenis Kelamin</label>
                 <select value={identity.gender} onChange={e => setIdentity({...identity, gender: e.target.value})} className={`${inputClass} cursor-pointer`}>
-                  <option value="Putra">Putra (Laki-laki)</option><option value="Putri">Putri (Perempuan)</option>
+                  <option value="Putra">Putra (Male)</option><option value="Putri">Putri (Female)</option>
                 </select>
               </div>
             </div>
@@ -442,7 +442,7 @@ export default function App() {
                    </span>
                  </div>
                  <div className="relative">
-                   <input type="number" step="0.1" value={identity.subCabor === 'Canoeing' ? tests.ergoVO2 : tests.rowingVO2} onChange={e => setTests({...tests, [identity.subCabor === 'Canoeing' ? 'ergoVO2' : 'rowingVO2']: e.target.value})} className={`${testInputClass} bg-white border-cyan-200 py-4 text-xl`} placeholder="Hasil Uji Lab / Ergo..." />
+                   <input type="number" step="0.1" value={identity.subCabor === 'Canoeing' ? tests.ergoVO2 : tests.rowingVO2} onChange={e => setTests({...tests, [identity.subCabor === 'Canoeing' ? 'ergoVO2' : 'rowingVO2']: e.target.value})} className={`${testInputClass} bg-white border-cyan-200 py-12 text-xl`} placeholder="Hasil Uji Lab / Ergo..." />
                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-black text-cyan-600 uppercase tracking-widest">mL/Kg/Min</span>
                  </div>
                </div>
