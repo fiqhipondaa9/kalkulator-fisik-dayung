@@ -403,9 +403,17 @@ export default function App() {
                  <div key={item.id} className="flex flex-col relative group">
                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">{item.label}</label>
                    <div className="relative">
-                     <input type="number" step="0.1" value={tests[item.id]} onChange={e => setTests({...tests, [item.id]: e.target.value})} className={testInputClass} placeholder={getTargetPlaceholder('Canoeing', item.id.replace('Canoe',''), identity.gender)} />
-                     <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black text-slate-400 uppercase tracking-widest">{item.unit}</span>
-                   </div>
+                   <input 
+                     type="number" 
+                     step="0.1" 
+                     value={identity.subCabor === 'Canoeing' ? tests.ergoVO2 : tests.rowingVO2} 
+                     onChange={e => setTests({...tests, [identity.subCabor === 'Canoeing' ? 'ergoVO2' : 'rowingVO2']: e.target.value})} 
+                     className={`${testInputClass} bg-white border-cyan-200 py-4 text-xl`} 
+                     placeholder="0.0" 
+                     style={{ paddingRight: '120px' }} 
+                   />
+                   <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-black text-cyan-600 uppercase tracking-widest">ML/KG/MIN</span>
+                 </div>
                  </div>
                ))}
 
