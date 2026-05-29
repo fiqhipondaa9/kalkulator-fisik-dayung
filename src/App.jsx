@@ -1,5 +1,6 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import * as htmlToImage from 'html-to-image';
+import qrisImage from './assets/shareqr.png';
 
 // --- KOMPONEN IKON SVG (Custom) ---
 const IconUser = () => <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>;
@@ -8,18 +9,20 @@ const IconScale = () => <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none"
 const IconDownload = () => <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>;
 const IconBoat = () => <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 17A10 10 0 0 1 2 17"/><path d="M12 17v-4"/><path d="M7 13h10"/><path d="M12 13V9"/><path d="M10 9h4"/></svg>;
 const IconReset = () => <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>;
+const IconCoffee = () => <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg>;
+const IconX = () => <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" h1="6" x2="18" y2="18"/></svg>;
 
 // --- FUNGSI SCORING LOGIC CANOEING ---
 const getScoreCanoeing = (test, gender, value) => {
   if (value === '' || value === null || isNaN(value)) return 0;
   const v = parseFloat(value); const isM = gender === 'Putra';
   switch(test) {
-    case 'shoulderFlex': return isM ? (v >= 180 ? 100 : v >= 144 ? 80 : v >= 126 ? 70 : v >= 108 ? 60 : 40) : (v >= 180 ? 100 : v >= 144 ? 80 : v >= 126 ? 70 : v >= 108 ? 60 : 40);
-    case 'shoulderExt': return isM ? (v >= 60 ? 100 : v >= 48 ? 80 : v >= 42 ? 70 : v >= 36 ? 60 : 40) : (v >= 60 ? 100 : v >= 48 ? 80 : v >= 48 ? 70 : v >= 36 ? 60 : 40);
-    case 'pushUp': return isM ? (v >= 75 ? 100 : v >= 60 ? 80 : v >= 53 ? 70 : v >= 45 ? 60 : 40) : (v >= 50 ? 100 : v >= 40 ? 80 : v >= 40 ? 70 : v >= 30 ? 60 : 40);
+    case 'shoulderFlex': return (v >= 180 ? 100 : v >= 144 ? 80 : v >= 126 ? 70 : v >= 108 ? 60 : 40);
+    case 'shoulderExt': return (v >= 60 ? 100 : v >= 48 ? 80 : v >= 42 ? 70 : v >= 36 ? 60 : 40);
+    case 'pushUpCanoe': return isM ? (v >= 75 ? 100 : v >= 60 ? 80 : v >= 53 ? 70 : v >= 45 ? 60 : 40) : (v >= 50 ? 100 : v >= 40 ? 80 : v >= 35 ? 70 : v >= 30 ? 60 : 40);
     case 'benchPress': return isM ? (v >= 2.0 ? 100 : v >= 1.8 ? 80 : v >= 1.6 ? 70 : v >= 1.4 ? 60 : 40) : (v >= 1.5 ? 100 : v >= 1.4 ? 80 : v >= 1.2 ? 70 : v >= 1.1 ? 60 : 40);
-    case 'squat': return isM ? (v >= 2.5 ? 100 : v >= 2.3 ? 80 : v >= 2.0 ? 70 : v >= 1.8 ? 60 : 40) : (v >= 2.0 ? 100 : v >= 1.8 ? 80 : v >= 1.6 ? 70 : v >= 1.4 ? 60 : 40);
-    case 'core': return v >= 12 ? 100 : v >= 9 ? 70 : 40; 
+    case 'squatCanoe': return isM ? (v >= 2.5 ? 100 : v >= 2.3 ? 80 : v >= 2.0 ? 70 : v >= 1.8 ? 60 : 40) : (v >= 2.0 ? 100 : v >= 1.8 ? 80 : v >= 1.6 ? 70 : v >= 1.4 ? 60 : 40);
+    case 'coreCanoe': return v >= 12 ? 100 : v >= 9 ? 80 : 40; 
     case 'medBall': return isM ? (v >= 8.0 ? 100 : v >= 6.4 ? 80 : v >= 5.6 ? 70 : v >= 4.8 ? 60 : 40) : (v >= 6.0 ? 100 : v >= 4.8 ? 80 : v >= 4.2 ? 70 : v >= 3.6 ? 60 : 40);
     case 'wingate': return isM ? (v >= 900 ? 100 : v >= 720 ? 80 : v >= 630 ? 70 : v >= 540 ? 60 : 40) : (v >= 700 ? 100 : v >= 560 ? 80 : v >= 490 ? 70 : v >= 420 ? 60 : 40);
     case 'sprintWater': return isM ? (v <= 5.5 ? 100 : v <= 6.1 ? 80 : v <= 6.6 ? 70 : v <= 7.2 ? 60 : 40) : (v <= 6.0 ? 100 : v <= 6.6 ? 80 : v <= 7.2 ? 70 : v <= 7.8 ? 60 : 40);
@@ -36,11 +39,11 @@ const getScoreRowing = (test, gender, value) => {
   switch(test) {
     case 'sitReach': return isM ? (v >= 20 ? 100 : v >= 18 ? 80 : v >= 16 ? 70 : v >= 14 ? 60 : 40) : (v >= 25 ? 100 : v >= 23 ? 80 : v >= 20 ? 70 : v >= 18 ? 60 : 40);
     case 'shoulderFlexibility': return v < 0 ? 100 : v === 0 ? 80 : v <= 2 ? 70 : v <= 5 ? 60 : 40; 
-    case 'core': return v >= 12 ? 100 : v >= 9 ? 70 : 40;
-    case 'pushUp': return isM ? (v >= 75 ? 100 : v >= 60 ? 80 : v >= 53 ? 70 : v >= 45 ? 60 : 40) : (v >= 50 ? 100 : v >= 40 ? 80 : v >= 35 ? 70 : v >= 30 ? 60 : 40);
+    case 'coreRowing': return v >= 12 ? 100 : v >= 9 ? 80 : 40;
+    case 'pushUpRowing': return isM ? (v >= 75 ? 100 : v >= 60 ? 80 : v >= 53 ? 70 : v >= 45 ? 60 : 40) : (v >= 50 ? 100 : v >= 40 ? 80 : v >= 35 ? 70 : v >= 30 ? 60 : 40);
     case 'deadlift': return isM ? (v >= 2.5 ? 100 : v >= 2.0 ? 80 : v >= 1.8 ? 70 : v >= 1.5 ? 60 : 40) : (v >= 2.0 ? 100 : v >= 1.6 ? 80 : v >= 1.4 ? 70 : v >= 1.2 ? 60 : 40);
     case 'benchFull': return isM ? (v >= 1.5 ? 100 : v >= 1.2 ? 80 : v >= 1.1 ? 70 : v >= 0.9 ? 60 : 40) : (v >= 1.2 ? 100 : v >= 1.0 ? 80 : v >= 0.8 ? 70 : v >= 0.7 ? 60 : 40);
-    case 'squat': return isM ? (v >= 2.5 ? 100 : v >= 2.1 ? 80 : v >= 1.9 ? 70 : v >= 1.6 ? 60 : 40) : (v >= 2.0 ? 100 : v >= 1.7 ? 80 : v >= 1.5 ? 70 : v >= 1.3 ? 60 : 40);
+    case 'squatRowing': return isM ? (v >= 2.5 ? 100 : v >= 2.1 ? 80 : v >= 1.9 ? 70 : v >= 1.6 ? 60 : 40) : (v >= 2.0 ? 100 : v >= 1.7 ? 80 : v >= 1.5 ? 70 : v >= 1.3 ? 60 : 40);
     case 'singleLeg': return v >= 60 ? 100 : v >= 54 ? 80 : v >= 51 ? 70 : v >= 48 ? 60 : 40;
     case 'rowing30s': return isM ? (v >= 1200 ? 100 : v >= 960 ? 80 : v >= 840 ? 70 : v >= 720 ? 60 : 40) : (v >= 900 ? 100 : v >= 720 ? 80 : v >= 630 ? 70 : v >= 540 ? 60 : 40);
     case 'rowing5Min': return isM ? (v >= 1600 ? 100 : v >= 1280 ? 80 : v >= 1120 ? 70 : v >= 960 ? 60 : 40) : (v >= 1500 ? 100 : v >= 1200 ? 80 : v >= 1050 ? 70 : v >= 900 ? 60 : 40);
@@ -54,12 +57,12 @@ const getTargetPlaceholder = (cabor, test, gender) => {
   const isM = gender === 'Putra';
   if (cabor === 'Canoeing') {
     switch(test) {
-      case 'shoulderFlex': return isM ? '≥ 180' : '≥ 180';
-      case 'shoulderExt': return isM ? '≥ 60' : '≥ 60';
-      case 'pushUp': return isM ? '≥ 75' : '≥ 50';
+      case 'shoulderFlex': return '≥ 180';
+      case 'shoulderExt': return '≥ 60';
+      case 'pushUpCanoe': return isM ? '≥ 75' : '≥ 50';
       case 'benchPress': return isM ? '≥ 2.0' : '≥ 1.5';
-      case 'squat': return isM ? '≥ 2.5' : '≥ 2.0';
-      case 'core': return '≥ 12';
+      case 'squatCanoe': return isM ? '≥ 2.5' : '≥ 2.0';
+      case 'coreCanoe': return '≥ 12';
       case 'medBall': return isM ? '≥ 8.0' : '≥ 6.0';
       case 'wingate': return isM ? '≥ 900' : '≥ 700';
       case 'sprintWater': return isM ? '≤ 5.5' : '≤ 6.0';
@@ -71,11 +74,11 @@ const getTargetPlaceholder = (cabor, test, gender) => {
     switch(test) {
       case 'sitReach': return isM ? '≥ 20' : '≥ 25';
       case 'shoulderFlexibility': return '< 0';
-      case 'core': return '≥ 12';
-      case 'pushUp': return isM ? '≥ 75' : '≥ 50';
+      case 'coreRowing': return '≥ 12';
+      case 'pushUpRowing': return isM ? '≥ 75' : '≥ 50';
       case 'deadlift': return isM ? '≥ 2.5' : '≥ 2.0';
       case 'benchFull': return isM ? '≥ 1.5' : '≥ 1.2';
-      case 'squat': return isM ? '≥ 2.5' : '≥ 2.0';
+      case 'squatRowing': return isM ? '≥ 2.5' : '≥ 2.0';
       case 'singleLeg': return '≥ 60';
       case 'rowing30s': return isM ? '≥ 1200' : '≥ 900';
       case 'rowing5Min': return isM ? '≥ 1600' : '≥ 1500';
@@ -139,6 +142,7 @@ export default function App() {
   });
   
   const [isExporting, setIsExporting] = useState(false);
+  const [showCoffeeModal, setShowCoffeeModal] = useState(false);
 
   const age = useMemo(() => {
     if (!identity.dob) return '-';
@@ -149,6 +153,17 @@ export default function App() {
     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) calculatedAge--;
     return calculatedAge;
   }, [identity.dob]);
+
+  // --- TIMER AUTOMATION 33 MENIT ---
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (!isExporting) {
+        setShowCoffeeModal(true);
+      }
+    }, 33 * 60 * 1000); // 33 Menit
+
+    return () => clearInterval(timer);
+  }, [isExporting]);
 
   const bmiData = useMemo(() => {
     if (!anthro.weight || !anthro.height || anthro.height <= 0) return { bmi: '-', status: '-', color: 'text-slate-400' };
@@ -191,10 +206,10 @@ export default function App() {
   const scoresCanoeing = useMemo(() => ({
     shoulderFlex: getScoreCanoeing('shoulderFlex', identity.gender, tests.shoulderFlex),
     shoulderExt: getScoreCanoeing('shoulderExt', identity.gender, tests.shoulderExt),
-    pushUp: getScoreCanoeing('pushUp', identity.gender, tests.pushUpCanoe),
+    pushUp: getScoreCanoeing('pushUpCanoe', identity.gender, tests.pushUpCanoe),
     benchPress: getScoreCanoeing('benchPress', identity.gender, tests.benchPress),
-    squat: getScoreCanoeing('squat', identity.gender, tests.squatCanoe),
-    core: getScoreCanoeing('core', identity.gender, tests.coreCanoe),
+    squat: getScoreCanoeing('squatCanoe', identity.gender, tests.squatCanoe),
+    core: getScoreCanoeing('coreCanoe', identity.gender, tests.coreCanoe),
     medBall: getScoreCanoeing('medBall', identity.gender, tests.medBall),
     wingate: getScoreCanoeing('wingate', identity.gender, tests.wingate),
     sprintWater: getScoreCanoeing('sprintWater', identity.gender, tests.sprintWater),
@@ -205,11 +220,11 @@ export default function App() {
   const scoresRowing = useMemo(() => ({
     sitReach: getScoreRowing('sitReach', identity.gender, tests.sitReach),
     shoulderFlexibility: getScoreRowing('shoulderFlexibility', identity.gender, tests.shoulderFlexibility),
-    core: getScoreRowing('core', identity.gender, tests.coreRowing),
-    pushUp: getScoreRowing('pushUp', identity.gender, tests.pushUpRowing),
+    core: getScoreRowing('coreRowing', identity.gender, tests.coreRowing),
+    pushUp: getScoreRowing('pushUpRowing', identity.gender, tests.pushUpRowing),
     deadlift: getScoreRowing('deadlift', identity.gender, tests.deadlift),
     benchFull: getScoreRowing('benchFull', identity.gender, tests.benchFull),
-    squat: getScoreRowing('squat', identity.gender, tests.squatRowing),
+    squat: getScoreRowing('squatRowing', identity.gender, tests.squatRowing),
     singleLeg: getScoreRowing('singleLeg', identity.gender, tests.singleLeg),
     rowing30s: getScoreRowing('rowing30s', identity.gender, tests.rowing30s),
     rowing5Min: getScoreRowing('rowing5Min', identity.gender, tests.rowing5Min),
@@ -234,7 +249,7 @@ export default function App() {
 
   const handleDownloadImage = async () => {
     setIsExporting(true);
-    await new Promise((resolve) => setTimeout(resolve, 300));
+    await new Promise((resolve) => requestAnimationFrame(() => setTimeout(resolve, 400)));
     try {
       const element = document.getElementById('report-container');
       const dataUrl = await htmlToImage.toPng(element, { quality: 1.0, backgroundColor: "#f8fafc", pixelRatio: 2 });
@@ -262,6 +277,42 @@ export default function App() {
           #report-container input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none !important; margin: 0 !important; }
           #report-container input:focus, #report-container select:focus { box-shadow: none !important; border-color: #e2e8f0 !important; }
         `}} />
+      )}
+
+      {/* --- FAB KONSULTASI & APRESIASI --- */}
+      {!isExporting && (
+        <button 
+          onClick={() => setShowCoffeeModal(true)} 
+          className="no-print fixed bottom-8 right-8 bg-cyan-500 hover:bg-cyan-600 text-slate-900 h-14 rounded-full shadow-2xl z-50 flex items-center justify-center px-4 gap-0 hover:gap-3 transition-all duration-300 border-4 border-cyan-100 group overflow-hidden"
+          title="Konsultasi & Apresiasi"
+        >
+          <div className="relative flex items-center justify-center">
+            <IconCoffee />
+            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full animate-ping"></span>
+            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full border border-white"></span>
+          </div>
+          <span className="max-w-0 opacity-0 group-hover:max-w-xs group-hover:opacity-100 transition-all duration-500 ease-in-out whitespace-nowrap font-black text-xs uppercase tracking-widest text-slate-900 ml-0 group-hover:ml-2">
+            Konsultasi WA
+          </span>
+        </button>
+      )}
+
+      {/* UNIFIED COFFEE MODAL */}
+      {showCoffeeModal && (
+        <div className="fixed inset-0 z-[200] bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-300 no-print">
+          <div className="bg-white w-full max-w-sm rounded-3xl shadow-2xl flex flex-col overflow-hidden text-center relative p-8">
+            <button onClick={() => setShowCoffeeModal(false)} className="absolute top-4 right-4 bg-slate-100 text-slate-400 hover:bg-slate-200 hover:text-slate-600 p-2 rounded-xl transition-colors"><IconX className="w-4 h-4" /></button>
+            <div className="bg-amber-100 text-amber-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"><IconCoffee /></div>
+            <h3 className="text-xl font-black text-slate-800 mb-2">Traktir Kopi Developer</h3>
+            <p className="text-xs font-bold text-slate-500 mb-6 leading-relaxed normal-case">Terima kasih telah menggunakan aplikasi ini! Dukungan Anda sangat berarti bagi pengembangan fitur selanjutnya.</p>
+            <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100 mb-6 flex justify-center">
+                <img src={qrisImage} alt="QRIS DANA" className="max-w-[200px] h-auto rounded-xl shadow-sm border border-slate-200" />
+            </div>
+            <a href="https://wa.me/6285340804702?text=Halo%20Developer,%20saya%20ingin%20konsultasi%20mengenai%20Aplikasi%20Kalkulator%20Fisik%20Dayung..." target="_blank" rel="noopener noreferrer" className="bg-cyan-500 hover:bg-cyan-600 text-slate-900 font-black py-4 rounded-xl shadow-md transition-colors w-full flex items-center justify-center gap-2 text-sm uppercase tracking-widest">
+                Konsultasi WhatsApp
+            </a>
+          </div>
+        </div>
       )}
 
       {/* HEADER OCEAN THEME */}
@@ -292,7 +343,7 @@ export default function App() {
               </div>
             )}
             
-            {/* CABOR SWITCHER (VERY IMPORTANT) */}
+            {/* CABOR SWITCHER */}
             <div className="inline-flex bg-slate-800/80 backdrop-blur border border-slate-700 rounded-2xl p-1.5 shadow-inner">
                <button onClick={() => setIdentity({...identity, subCabor: 'Canoeing'})} className={`px-6 py-2.5 rounded-xl text-xs font-black tracking-widest uppercase transition-all duration-300 flex items-center gap-2 ${identity.subCabor === 'Canoeing' ? 'bg-cyan-500 text-slate-900 shadow-md' : 'text-slate-400 hover:text-white'}`}>
                  KANO (CANOEING)
@@ -350,7 +401,6 @@ export default function App() {
                </div>
             </div>
 
-            {/* KOTAK RASIO TUNGKAI & LENGAN (DAYUNG) */}
             {(anthro.height > 0 && (anthro.armSpan > 0 || anthro.sitHeight > 0)) && (
               <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 relative z-10 animate-in fade-in">
                 <div className="bg-white border border-slate-200 rounded-[2rem] p-5 shadow-sm flex flex-col justify-center relative overflow-hidden">
@@ -387,7 +437,6 @@ export default function App() {
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5">
-               {/* ================= RENDER TES KHUSUS CANOEING ================= */}
                {identity.subCabor === 'Canoeing' && [
                  { id: 'shoulderFlex', label: 'Shoulder Flexion', unit: 'derajat' },
                  { id: 'shoulderExt', label: 'Shoulder Extension', unit: 'derajat' },
@@ -403,21 +452,12 @@ export default function App() {
                  <div key={item.id} className="flex flex-col relative group">
                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">{item.label}</label>
                    <div className="relative">
-                   <input 
-                     type="number" 
-                     step="0.1" 
-                     value={identity.subCabor === 'Canoeing' ? tests.ergoVO2 : tests.rowingVO2} 
-                     onChange={e => setTests({...tests, [identity.subCabor === 'Canoeing' ? 'ergoVO2' : 'rowingVO2']: e.target.value})} 
-                     className={`${testInputClass} bg-white border-cyan-200 py-4 text-xl`} 
-                     placeholder="0.0" 
-                     style={{ paddingRight: '120px' }} 
-                   />
-                   <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-black text-cyan-600 uppercase tracking-widest">ML/KG/MIN</span>
-                 </div>
+                     <input type="number" step="0.1" value={tests[item.id]} onChange={e => setTests({...tests, [item.id]: e.target.value})} className={testInputClass} placeholder={getTargetPlaceholder('Canoeing', item.id, identity.gender)} />
+                     <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black text-slate-400 uppercase tracking-widest">{item.unit}</span>
+                   </div>
                  </div>
                ))}
 
-               {/* ================= RENDER TES KHUSUS ROWING ================= */}
                {identity.subCabor === 'Rowing' && [
                  { id: 'sitReach', label: 'Sit & Reach', unit: 'cm' },
                  { id: 'shoulderFlexibility', label: 'Shoulder Flexibility', unit: 'cm' },
@@ -433,13 +473,13 @@ export default function App() {
                  <div key={item.id} className="flex flex-col relative group">
                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">{item.label}</label>
                    <div className="relative">
-                     <input type="number" step="0.1" value={tests[item.id]} onChange={e => setTests({...tests, [item.id]: e.target.value})} className={testInputClass} placeholder={getTargetPlaceholder('Rowing', item.id.replace('Rowing',''), identity.gender)} />
+                     <input type="number" step="0.1" value={tests[item.id]} onChange={e => setTests({...tests, [item.id]: e.target.value})} className={testInputClass} placeholder={getTargetPlaceholder('Rowing', item.id, identity.gender)} />
                      <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black text-slate-400 uppercase tracking-widest">{item.unit}</span>
                    </div>
                  </div>
                ))}
 
-               {/* VO2 MAX ERGOMETER (Dipakai keduanya, tapi id state beda agar mandiri) */}
+               {/* VO2 MAX ERGOMETER CONTAINER */}
                <div className="sm:col-span-2 bg-cyan-50/50 p-6 rounded-[2rem] border border-cyan-100 mt-2 shadow-inner">
                  <div className="flex flex-col md:flex-row justify-between md:items-center mb-4 gap-2">
                    <label className="text-sm font-black text-slate-800 uppercase tracking-wide">
@@ -475,7 +515,6 @@ export default function App() {
           <div className="bg-white rounded-[2.5rem] p-6 shadow-sm border border-slate-200 flex-1 flex flex-col">
              <h3 className="text-xs font-black text-slate-800 uppercase tracking-widest text-center mb-6">Poligon Kapasitas Bio-Motorik</h3>
              <div className="flex-1 flex items-center justify-center min-h-[280px] bg-slate-50/50 rounded-[2rem] p-4 border border-slate-100 relative">
-               {/* Label Cabor di dalam Radar */}
                <div className="absolute top-4 left-4 bg-white border border-slate-200 px-3 py-1 rounded-lg text-[8px] font-black text-cyan-600 tracking-widest uppercase shadow-sm opacity-80">{identity.subCabor} MODE</div>
                <RadarChart data={Object.values(activeScores)} labels={activeLabels} isBlanko={isBlanko} />
              </div>
